@@ -70,3 +70,12 @@ def remove(table, key):
         counter += 1    
     raise LookupError 
 
+# HashTable -> int
+# Takes in a hash table and returns the number of items inside the hash table.
+def size(table):
+    size = 0
+    for each_list in table.list_of_vals:
+        if each_list is not None:
+            for each_val in each_list:
+                size += 1
+    return size

@@ -38,5 +38,11 @@ class TestHash(unittest.TestCase):
             remove(hash6, 1)
         with self.assertRaises(LookupError):
             remove(hash6, 0)
+
+    def test_size(self):
+        hash1 = empty_hash_table()
+        hash1.list_of_vals = [[Value(0, 0), Value(8, 0), Value(16, 0)], None, None, None, None, None, None, [Value(7, 0)]] 
+        self.assertEqual(size(hash1), 4)
+
 if __name__ == "__main__":
     unittest.main()
