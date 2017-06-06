@@ -20,19 +20,19 @@ class TestHash(unittest.TestCase):
         
     def test_remove(self):
         hash1 = empty_hash_table()
-        hash1.list_of_vals = [[Value(8, 0)], [Value(1, 1)], None, None, None, None, None, [Value(7, 7)]]
+        hash1.list_of_vals = [[Value(8, 8)], [Value(1, 1)], None, None, None, None, None, [Value(7, 7)]]
         hash2 = empty_hash_table()
         hash2.list_of_vals = [None, [Value(1, 1)], None, None, None, None, None, [Value(7, 7)]]
         self.assertEqual(remove(hash1, 8), hash2)
         hash3 = empty_hash_table()
-        hash3.list_of_vals = [[Value(0, 0), Value(8, 0), Value(16, 0)], None, None, None, None, None, None, None]
+        hash3.list_of_vals = [[Value(0, 0), Value(8, 8), Value(16, 16)], None, None, None, None, None, None, None]
         hash4 = empty_hash_table()
-        hash4.list_of_vals = [[Value(0, 0), Value(16, 0)], None, None, None, None, None, None, None]
+        hash4.list_of_vals = [[Value(0, 0), Value(16, 16)], None, None, None, None, None, None, None]
         self.assertEqual(remove(hash3, 8), hash4)
         hash5 = empty_hash_table()
-        hash5.list_of_vals = [[Value(0, 0), Value(8, 0), Value(16, 0)], None, None, None, None, None, None, None]
+        hash5.list_of_vals = [[Value(0, 0), Value(8, 8), Value(16, 16)], None, None, None, None, None, None, None]
         hash6 = empty_hash_table()
-        hash6.list_of_vals = [[Value(8, 0), Value(16, 0)], None, None, None, None, None, None, None] 
+        hash6.list_of_vals = [[Value(8, 8), Value(16, 16)], None, None, None, None, None, None, None] 
         self.assertEqual(remove(hash5, 0), hash6)
         with self.assertRaises(LookupError):
             remove(hash6, 1)
@@ -60,5 +60,20 @@ class TestHash(unittest.TestCase):
         hash3.list_of_vals = [[Value(8, 0), Value(16, 0)], None, None, [Value(11, 0), Value(19, 0)], None, None, None, None]
         self.assertEqual(collisions(hash3), 2)
 
+    def test_insert(self):
+        hash1 = empty_hash_table()
+        hash2 = empty_hash_table()
+        hash2.list_of_vals = [[Value(0, 0)], None, None, None, None, None, None, None]
+        self.assertEqual(insert(hash1, 0, 0), hash2)
+        hash3 = empty_hash_table()
+        hash3.list_of_vals = [[Value(0, 0), Value(8, 8)], None, None, None, None, None, None, None]
+        self.assertEqual(insert(hash2, 8, 8), hash3)
+        hash4 = empty_hash_table()
+        hash4.list_of_vals = [[Value(0, 0), Value(8, 8)], None, [Value(2, 2)], None, None, None, None, None]
+        self.assertEqual(insert(hash3, 2, 2), hash4)
+        hash6 = empty_hash_table()
+        hash6.list_of_vals = [None, [Value(1, 1), Value(9, 9), Value(17, 17), Value(25, 25), Value(33, 33), Value(41, 41), Value(49, 49), Value(57, 57), Value(65, 65), Value(73, 73), Value(81, 81), Value(89, 89), Value(97, 97)], None, None, None, None, None, None]
+        print(insert(hash6, 0, 0))
+        print(insert(hash6, 105, 105))
 if __name__ == "__main__":
     unittest.main()

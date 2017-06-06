@@ -19,7 +19,7 @@ class HashTable:
 # -- val
 class Value:
     def __init__(self, key, val):
-        self.key = key # hash value
+        self.key = hash(val) # hash value
         self.val = val # any value
     
     def __repr__(self):
@@ -35,8 +35,46 @@ def empty_hash_table():
 
 # HashTable key val -> HashTable
 # Takes in a hash table and a pair of a value and its python build in hash value. Returns a new hash table with the key and value inserted at its appropriate place.
-#def insert(table, key, val):
-     
+def insert(table, key, val):
+	number_of_collisions = collisions(table)
+	index = key % (len(table.list_of_vals))
+	list_of_collisions = table.list_of_vals[index]
+	if list_of_collisions == None:
+		list_of_collisions = [Value(key, val)]
+		table.list_of_vals[index] = list_of_collisions
+		load_factorr = load_factor(table)
+		if load_factorr > 1.5:
+			number_of_collisions = 0
+			table.size *= 2
+			new_table = empty_hash_table()
+			new_table.size = table.size
+			new_table.list_of_vals = [None]*table.size
+			for each_list in table.list_of_vals:
+				if each_list is not None:
+					for each_val in each_list:
+						new_table = insert(new_table, each_val.key, each_val.val)
+			return new_table
+		return table
+	for each_val in list_of_collisions:
+		if each_val.key == key:
+			each_val = val
+		else:
+			list_of_collisions.append(Value(key, val))
+	table.list_of_vals[index] = list_of_collisions
+	load_factorr = load_factor(table)
+	if load_factorr > 1.5:
+		number_of_collisions = 0
+		table.size *= 2
+		new_table = empty_hash_table()
+		new_table.size = table.size
+		new_table.list_of_vals = [None]*table.size
+		for each_list in table.list_of_vals:
+			if each_list is not None:	
+				for each_val in each_list:
+					new_table = insert(new_table, each_val.key, each_val.val)
+		return new_table
+	return table
+
 # HashTable key -> val 
 # Takes in a hash table and a key and returns the associated value at that key.
 def get(table, key):
