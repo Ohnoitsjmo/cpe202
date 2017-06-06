@@ -79,3 +79,19 @@ def size(table):
             for each_val in each_list:
                 size += 1
     return size
+
+# HashTable -> float
+# Takes in a hash table and returns the current load factor of the table.
+def load_factor(table):
+    return (size(table) / len(table.list_of_vals))
+
+# HashTable -> int 
+# Takes in a hash table and returns the number of collisions that have occured during insertions into the hash table.
+def collisions(table):
+    collisions = 0
+    for each_list in table.list_of_vals:
+        if each_list is not None:
+            if len(each_list) > 1:
+                for each_val in range(1, len(each_list)):
+                    collisions += 1
+    return collisions

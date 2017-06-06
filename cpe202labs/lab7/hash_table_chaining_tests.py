@@ -44,5 +44,21 @@ class TestHash(unittest.TestCase):
         hash1.list_of_vals = [[Value(0, 0), Value(8, 0), Value(16, 0)], None, None, None, None, None, None, [Value(7, 0)]] 
         self.assertEqual(size(hash1), 4)
 
+    def test_load_factor(self):
+        hash1 = empty_hash_table()
+        hash1.list_of_vals = [[Value(0, 0), Value(8, 0), Value(16, 0)], None, None, None, None, None, None, [Value(7, 0)]]
+        self.assertEqual(load_factor(hash1), 0.5)
+
+    def test_collisions(self):
+        hash1 = empty_hash_table()
+        hash1.list_of_vals = [[Value(0, 0), Value(8, 0), Value(16, 0)], None, None, None, None, None, None, [Value(7, 0)]]
+        self.assertEqual(collisions(hash1), 2)
+        hash2 = empty_hash_table()
+        hash2.list_of_vals = [[Value(8, 0), Value(16, 0)], None, None, None, None, None, None, None]
+        self.assertEqual(collisions(hash2), 1)
+        hash3 = empty_hash_table()
+        hash3.list_of_vals = [[Value(8, 0), Value(16, 0)], None, None, [Value(11, 0), Value(19, 0)], None, None, None, None]
+        self.assertEqual(collisions(hash3), 2)
+
 if __name__ == "__main__":
     unittest.main()
