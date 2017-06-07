@@ -14,19 +14,19 @@ class HashTable:
     def __eq__(self, other):
         return type(other) == HashTable and self.size == other.size and self.list_of_vals == other.list_of_vals
 
-# class Value is one of
+# class Item is one of
 # -- key or 
 # -- val
-class Value:
+class Item:
     def __init__(self, key, val):
-        self.key = hash(val) # hash value
+        self.key = key # hash value
         self.val = val # any value
     
     def __repr__(self):
         return "(Key: {!r}, Val: {!r})".format(self.key, self.val)
 
     def __eq__(self, other):
-        return type(other) == Value and self.key == other.key and self.val == other.val
+        return type(other) == Item and self.key == other.key and self.val == other.val
 
 # None -> HashTable
 # Takes in no parameters and returns an empty hash table with of initial size 8.
@@ -37,10 +37,10 @@ def empty_hash_table():
 # Takes in a hash table and a pair of a value and its python build in hash value. Returns a new hash table with the key and value inserted at its appropriate place.
 def insert(table, key, val):
 	number_of_collisions = collisions(table)
-	index = key % (len(table.list_of_vals))
+	index = hash(key) % abs(len(table.list_of_vals))
 	list_of_collisions = table.list_of_vals[index]
 	if list_of_collisions == None:
-		list_of_collisions = [Value(key, val)]
+		list_of_collisions = [Item(key, val)]
 		table.list_of_vals[index] = list_of_collisions
 		load_factorr = load_factor(table)
 		if load_factorr > 1.5:
@@ -59,7 +59,7 @@ def insert(table, key, val):
 		if each_val.key == key:
 			each_val = val
 		else:
-			list_of_collisions.append(Value(key, val))
+			list_of_collisions.append(Item(key, val))
 	table.list_of_vals[index] = list_of_collisions
 	load_factorr = load_factor(table)
 	if load_factorr > 1.5:
