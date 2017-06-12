@@ -121,40 +121,41 @@ def empty_hash_table():
 # HashTable key val -> HashTable
 # Takes in a hashtable and a pair of a value and its python build in hash value. Returns a new hash table with the key and value inserted at its appropriate place.
 def insert(table, key, val):
-    if load_factor(table) > 1.5:
-        table.size += 1
-        table = rehash(table)
-    index = hash(key) % table.capacity
-    list_of_collisions = table.list_of_vals[index] 
-    if list_of_collisions == None:
-        list_of_collisions = Pair(Item(key, val), None)
-        table.list_of_vals[index] = list_of_collisions
-        table.size += 1
-        return table 
-    else:
-        table.collisions += 1
-        #for i in range(0, length(list_of_collisions)):
-        #    if gett(list_of_collisions, i).key == key:
-        #       table.collisions -= 1 
-        #        return table
-        list_of_collisions = addd(list_of_collisions, 0, Item(key, val))
-        table.list_of_vals[index] = list_of_collisions
-        table.size += 1
-        return table
+	if load_factor(table) > 1.5:
+		table = rehash(table)
+	index = hash(key) % table.capacity
+	list_of_collisions = table.list_of_vals[index] 
+	if list_of_collisions == None:
+		list_of_collisions = Pair(Item(key, val), None)
+		table.list_of_vals[index] = list_of_collisions
+		table.size += 1
+		return table 
+	else:
+		table.collisions += 1
+		for i in range(0, length(list_of_collisions)):
+			item = gett(list_of_collisions, i)
+			if item.key == key:
+				list_of_collisions = sett(list_of_collisions, i, Item(key, val))
+				table.list_of_vals[index] = list_of_collisions
+				return table
+		list_of_collisions = addd(list_of_collisions, 0, Item(key, val))
+		table.list_of_vals[index] = list_of_collisions
+		table.size += 1
+		return table
 
 # HashTable -> HashTable
 # Takes in a HashTable with a load factor greater than 1.5 and rehashes everything and returns the rehashed HashTable.
 def rehash(table):
-    new_table = empty_hash_table()
-    new_table.collisions = 0
-    new_table.capacity = (table.capacity * 2)
-    new_table.list_of_vals = [None] * new_table.capacity
-    for each_list in table.list_of_vals:
-        if each_list is not None:
-            for i in range(0, length(each_list)):
-                item = gett(each_list, i)
-                insert(new_table, item.key, item.val)
-    return new_table
+	new_table = empty_hash_table()
+	new_table.collisions = 0
+	new_table.capacity = (table.capacity * 2)
+	new_table.list_of_vals = [None] * new_table.capacity
+	for each_list in table.list_of_vals:
+		if each_list is not None:
+			for i in range(0, length(each_list)):
+				item = gett(each_list, i)
+				insert(new_table, item.key, item.val)
+	return new_table
 
 # HashTable key -> val
 # Takes in a hash table and a key and returns the associated value at that key.
